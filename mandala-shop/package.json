@@ -1,0 +1,19 @@
+{
+  "name": "mandala-shop-server",
+  "version": "1.0.0",
+  "description": "Сервер магазина Mandal-Art: заказы, платежи Telegram Stars (XTR), права доступа, админ-панель, статистика",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/index.js",
+    "test": "node --disable-warning=ExperimentalWarning --test --test-reporter=spec \"test/*.test.js\"",
+    "webhook:set": "node --disable-warning=ExperimentalWarning scripts/webhook.js set",
+    "webhook:info": "node --disable-warning=ExperimentalWarning scripts/webhook.js info",
+    "webhook:delete": "node --disable-warning=ExperimentalWarning scripts/webhook.js delete",
+    "backup": "node --disable-warning=ExperimentalWarning scripts/backup.js"
+  },
+  "dependencies": {}
+}
