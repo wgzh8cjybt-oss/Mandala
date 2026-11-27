@@ -1,0 +1,88 @@
+/* ===== ФИГУРКИ: переключатель вкладки, плитки, окно просмотра-стенда ===== */
+.hall-seg{width:100%;flex:0 0 auto}
+.hall-seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:34px}
+.hall-seg .pill{font-size:9px;padding:1px 5px}
+.hall-seg button.active .pill{background:rgba(0,0,0,.35);color:#fff;border-color:rgba(255,255,255,.3)}
+.seg-dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 8px var(--glow);animation:readyPulse 2s ease-in-out infinite}
+.hall-seg button.active .seg-dot{background:#fff}
+.fg-soon{text-align:center;padding:14px 8px;border:1px dashed var(--border-soft);border-radius:10px}
+
+/* спрайт лежит в стилях один раз как .fgd.<id>{--fg:url(...)}; плитка, стенд и срезы толщины берут var(--fg) */
+.fgs{display:block;background-image:var(--fg);background-repeat:no-repeat;background-position:center;background-size:contain}
+
+.fig{position:relative;background:rgba(0,0,0,.6);border:1px solid var(--border);border-radius:12px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;color:inherit;font:inherit;transition:transform .15s;-webkit-tap-highlight-color:transparent}
+.fig:active{transform:scale(.96)}
+.fig .fg-art{position:relative;width:100%;aspect-ratio:3/4;border-radius:10px;background:radial-gradient(ellipse at 50% 38%,var(--accent-soft2),rgba(0,0,0,.65) 72%);border:1px solid var(--border-soft);overflow:hidden}
+.fig .fg-art::after{content:"";position:absolute;left:16%;right:16%;bottom:5%;height:9%;border-radius:50%;background:radial-gradient(ellipse,var(--fgc,var(--accent)),transparent 70%);opacity:.55}
+.fig .fg-art .fgs{position:absolute;inset:7% 7% 11%;z-index:1;filter:drop-shadow(0 4px 6px rgba(0,0,0,.6))}
+.fig.locked{border-color:#3f3f46;background:rgba(0,0,0,.82)}
+.fig.locked .fg-art .fgs{filter:grayscale(1) brightness(.34) contrast(1.1)}
+.fig.locked .fg-art::after{opacity:.1}
+.fg-lock{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--muted);text-shadow:0 0 6px #000}
+.fig.ready{border-color:var(--accent-2);box-shadow:0 0 12px var(--glow);animation:readyPulse 2s ease-in-out infinite}
+.fig.owned{border-color:var(--accent)}
+.fig .nm{font-size:10px;font-weight:800;color:var(--text-accent);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fig .cost{font-size:9px;color:var(--muted);font-weight:700;text-align:center;line-height:1.25;min-height:2.5em}
+body.fam-wh .fig{border-radius:3px}
+body.fam-op .fig{border-radius:16px}
+body.fam-sc .fig{border-radius:6px}
+body.fx-lite .fig.ready{animation:none}
+.fg-strip{display:flex;justify-content:center;gap:8px;height:88px;margin:4px 0 12px}
+.fg-strip .fgs{flex:0 0 auto;width:54px;filter:drop-shadow(0 3px 5px rgba(0,0,0,.6))}
+
+/* окно просмотра: «акриловый стенд» — две грани и стопка срезов силуэта (толщина), вращение вокруг оси */
+.fgv{position:fixed;inset:0;z-index:55;display:flex;flex-direction:column;background:#020305;color:var(--text);padding:max(10px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));animation:fadeIn .25s;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.fgv-x{position:absolute;top:max(10px,env(safe-area-inset-top));right:12px;z-index:6;width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.62);border:1px solid var(--border);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:18px}
+.fgv-stage{position:relative;flex:1 1 auto;min-height:230px;touch-action:none;cursor:grab;overscroll-behavior:contain;overflow:hidden}
+.fgv.drag .fgv-stage{cursor:grabbing}
+.fgv-bg{position:absolute;inset:0;background:radial-gradient(ellipse 62% 48% at 50% 46%,var(--fgc-a),transparent 72%),radial-gradient(ellipse 100% 60% at 50% 105%,rgba(255,255,255,.06),transparent 60%)}
+.fgv .rays{top:46%;opacity:.35;background:repeating-conic-gradient(from 0deg,var(--fgc-c) 0 5deg,transparent 5deg 16deg);animation:spin 50s linear infinite}
+.fgv.fresh .rays{opacity:.7;animation:raysIn 1.6s ease-out forwards,spin 40s linear infinite}
+.fgv.fx-lite .rays,.fgv.fx-off .rays{animation:none;opacity:.22}
+.fgv-cam{position:absolute;inset:0;perspective:1100px;perspective-origin:50% 38%}
+.fgv-shadow{position:absolute;left:50%;top:calc(50% + var(--fh,300px) * .5);width:calc(var(--fw,200px) * 1.1);height:calc(var(--fh,300px) * .09);margin-top:calc(var(--fh,300px) * -.04);background:radial-gradient(ellipse,rgba(0,0,0,.8),transparent 70%);transform:translateX(-50%);pointer-events:none}
+.fgv-ring{position:absolute;left:50%;top:calc(50% + var(--fh,300px) * .5);width:var(--rd,260px);height:var(--rd,260px);margin-top:calc(var(--rd,260px) * -.5);border-radius:50%;pointer-events:none;transform:translateX(-50%) rotateX(74deg);
+  background:repeating-conic-gradient(from 0deg,var(--fgc-b) 0 1.1deg,transparent 1.1deg 11.25deg);-webkit-mask-image:radial-gradient(circle,transparent 62%,#000 63%,#000 70%,transparent 71%);mask-image:radial-gradient(circle,transparent 62%,#000 63%,#000 70%,transparent 71%);opacity:.8}
+.fgv-lift{position:absolute;left:50%;top:50%;width:var(--fw,200px);height:var(--fh,300px);margin:calc(var(--fh,300px) * -.5) 0 0 calc(var(--fw,200px) * -.5);transform-style:preserve-3d;animation:fgFloat 5s ease-in-out infinite}
+@keyframes fgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.fgv.fx-lite .fgv-lift,.fgv.fx-off .fgv-lift{animation:none}
+.fgv-obj{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.fgv-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.fgv-face.fr{transform:translateZ(calc(var(--th,12px) * .5))}
+.fgv-face.bk{transform:rotateY(180deg) translateZ(calc(var(--th,12px) * .5))}
+.fgv-face .fgs{position:absolute;inset:0;background-size:100% 100%}
+.fgv-face.bk .fgs{transform:scaleX(-1);filter:brightness(.62) saturate(.8)}
+.fgv-sl{position:absolute;inset:0;background:linear-gradient(180deg,#8a6d4a 0%,#4a3a28 38%,#2e2419 70%,#6b5238 100%);background:linear-gradient(180deg,color-mix(in srgb,var(--fgc,#d97706) 55%,#c9b79c) 0%,color-mix(in srgb,var(--fgc,#d97706) 30%,#4a3a28) 40%,#2e2419 72%,color-mix(in srgb,var(--fgc,#d97706) 40%,#7a6244) 100%);transform:translateZ(calc(var(--th,12px) * var(--k,0)));
+  -webkit-mask-image:var(--fg);mask-image:var(--fg);-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.fgv-sheen,.fgv-shade{position:absolute;inset:0;pointer-events:none;-webkit-mask-image:var(--fg);mask-image:var(--fg);-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.fgv-sheen{background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.55) 50%,transparent 62%);background-size:260% 100%;opacity:.5}
+.fgv-shade{background:#000;opacity:0}
+.fgv-eye{position:absolute;width:15%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,70,50,.95) 0,rgba(255,60,40,.4) 38%,transparent 70%);animation:eyePulse 1.9s ease-in-out infinite;pointer-events:none}
+@keyframes eyePulse{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(.85)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}}
+.fgv.fx-off .fgv-eye{animation:none;opacity:.8}
+.fgv.locked .fgv-face .fgs{filter:brightness(.42) saturate(.5)}
+.fgv.locked .fgv-face.bk .fgs{filter:brightness(.3) saturate(.4)}
+.fgv.locked .fgv-eye,.fgv.locked .fgv-sheen{display:none}
+.fgv-mote{position:absolute;left:var(--x);bottom:12%;width:3px;height:3px;border-radius:50%;background:var(--fgc);box-shadow:0 0 6px var(--fgc);opacity:0;animation:moteUp var(--d) linear var(--w) infinite;pointer-events:none}
+@keyframes moteUp{0%{opacity:0;transform:translateY(0)}15%{opacity:.8}100%{opacity:0;transform:translateY(-260px)}}
+.fgv-hint{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-size:11px;color:var(--muted);font-weight:700;pointer-events:none;transition:opacity .4s}
+.fgv-hint.off{opacity:0}
+.fgv-prev{display:none;position:absolute;left:0;top:max(14px,env(safe-area-inset-top));font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border-soft);padding:3px 8px;border-radius:6px;background:rgba(0,0,0,.55)}
+.fgv.locked .fgv-prev{display:block}
+.fgv-info{flex:0 0 auto;text-align:center;padding:4px 6px 0}
+.fgv-kick{font-size:10px;font-weight:800;letter-spacing:.2em;color:var(--accent-2);text-transform:uppercase}
+.fgv-nm{font-size:22px;font-weight:800;color:#fff;margin-top:3px;line-height:1.15}
+.fgv-ds{font-size:12px;color:var(--muted);margin:5px auto 0;line-height:1.35;max-width:34em}
+.fgv-st{font-size:12px;font-weight:800;color:var(--text-accent);margin-top:7px}
+.fgv-ctl{flex:0 0 auto;display:flex;gap:6px;justify-content:center;margin:9px 0 8px}
+.fgv-ctl button{background:rgba(0,0,0,.6);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:800;padding:6px 11px;border-radius:9px;min-height:32px}
+.fgv-ctl button.on{background:var(--accent);color:#fff;border-color:var(--accent-2)}
+.fgv-act{flex:0 0 auto;display:flex;flex-direction:column;gap:8px}
+.fgv-btnrow{display:flex;gap:8px}
+.fgv-btnrow .btn{flex:1}
+.fgv-note{font-size:11px;color:var(--muted);text-align:center;line-height:1.35}
+@media (prefers-reduced-motion:reduce){.fgv *{animation:none!important}}
+
+/* магазин: условия покупки и ожидание подтверждения */
+.shop-terms{max-height:46vh;overflow-y:auto;text-align:left;-webkit-overflow-scrolling:touch}
+.shop-spin{width:30px;height:30px;margin:6px auto 10px;border-radius:50%;border:3px solid var(--border-soft);border-top-color:var(--accent-2);animation:spin .9s linear infinite}

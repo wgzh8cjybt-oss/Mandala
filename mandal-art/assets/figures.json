@@ -1,0 +1,17 @@
+[
+  {"id":"wh_skull","uni":"wh40k","name":"Сервочереп","desc":"Летающий наблюдатель. Следит за вашими делами и иногда ломается — тогда приходят техножрецы.","rank":0,"flames":6,"product":"fig_wh_skull","glow":"#ff3b30","eye":[0.201,0.465],"rights":"pending"},
+  {"id":"wh_adept","uni":"wh40k","name":"Техножрец-адепт","desc":"Молчаливый ремонтник в красной рясе. Чинит сервочерепов и никуда не торопится.","rank":1,"flames":10,"product":"fig_wh_adept","glow":"#d23a2a","rights":"pending"},
+  {"id":"wh_trooper","uni":"wh40k","name":"Космодесантник","desc":"Воин в тяжёлой броне. Не отступает, пока не выполнена последняя задача.","rank":3,"flames":20,"product":"fig_wh_trooper","glow":"#d97706","rights":"pending"},
+  {"id":"wh_magos","uni":"wh40k","name":"Магос-техножрец","desc":"Хранитель механизмов и данных. Видит порядок там, где другие видят хаос.","rank":4,"flames":30,"product":"fig_wh_magos","glow":"#ef4444","rights":"pending"},
+  {"id":"wh_walker","uni":"wh40k","name":"Дредноут","desc":"Древний шагоход. Силы хватит на любую цель, нужно только идти.","rank":6,"flames":45,"product":"fig_wh_walker","glow":"#f97316","rights":"pending"},
+  {"id":"wh_golden","uni":"wh40k","name":"Император","desc":"Золотая фигура на вершине коллекции. Награда тем, кто дошёл до конца.","rank":8,"flames":70,"product":"fig_wh_golden","glow":"#fbbf24","rights":"pending"},
+  {"id":"op_captain","uni":"onepiece","name":"Капитан","desc":"Ведёт команду к мечте и не сворачивает с курса.","rank":1,"flames":10,"product":"fig_op_captain","glow":"#ef4444","rights":"pending"},
+  {"id":"op_swordsman","uni":"onepiece","name":"Мечник","desc":"Дисциплина и клинок. Каждый день — шаг к цели.","rank":3,"flames":20,"product":"fig_op_swordsman","glow":"#22c55e","rights":"pending"},
+  {"id":"op_cook","uni":"onepiece","name":"Кок","desc":"Кормит команду и сражается ногами. Без него в походе никуда.","rank":5,"flames":35,"product":"fig_op_cook","glow":"#facc15","rights":"pending"},
+  {"id":"op_doctor","uni":"onepiece","name":"Доктор","desc":"Маленький, но надёжный: лечит команду и держит ритм.","rank":7,"flames":50,"product":"fig_op_doctor","glow":"#f472b6","rights":"pending"},
+  {"id":"sc_scrooge","uni":"scrooge","name":"Магнат","desc":"Считает каждую монету и каждый шаг к цели. Золото любит терпеливых.","rank":1,"flames":10,"product":"fig_sc_scrooge","glow":"#fbbf24","rights":"pending"},
+  {"id":"sc_daisy","uni":"scrooge","name":"Модница","desc":"Яркая и весёлая: напоминает, что путь к большой цели может быть лёгким.","rank":3,"flames":20,"product":"fig_sc_daisy","glow":"#f472b6","rights":"pending"},
+  {"id":"art_coins","uni":"art","name":"Золотой столбик","desc":"Каждая монета — один шаг к цели. Настоящая 3D-модель, собранная кодом: вращайте и приближайте.","rank":2,"flames":15,"product":"fig_art_coins","glow":"#fbbf24","rights":"own","model":"proc:coins"},
+  {"id":"art_helm","uni":"art","name":"Штурвал","desc":"Курс задан — осталось держать его. Настоящая 3D-модель из дерева и латуни, штурвал поворачивается.","rank":4,"flames":30,"product":"fig_art_helm","glow":"#38bdf8","rights":"own","model":"proc:helm"},
+  {"id":"art_crystal","uni":"art","name":"Кристалл фокуса","desc":"Собирает внимание в одну точку. Прозрачные грани и живое свечение — настоящая 3D-модель.","rank":6,"flames":40,"product":"fig_art_crystal","glow":"#a78bfa","rights":"own","model":"proc:crystal"}
+]

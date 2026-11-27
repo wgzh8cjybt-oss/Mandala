@@ -1,0 +1,73 @@
+/* ===== Оформление по семействам тем: wh (Warhammer + палитры), op (One Piece), sc (Scrooge Gold) ===== */
+.btn .ic,.chip .ic,.h2 .ic,.tab-btn .ic,.modal h3 .ic,.seg .ic{vertical-align:-.26em}
+.btn .ic{margin-right:.25em}.btn .ic:only-child{margin-right:0}
+.chip .ic{font-size:14px;color:var(--accent-2)}
+.goal .seal{display:inline-flex;font-size:26px;color:var(--accent-2);filter:drop-shadow(0 0 6px var(--glow))}
+.goal .seal .ic{width:1em;height:1em}
+#nav button .ic{font-size:23px;width:1em;height:1em;transition:transform .2s}
+#nav button.active .ic{transform:translateY(-1px) scale(1.12)}
+.ach .ic{font-size:24px;width:1em;height:1em}
+.ach .rw .ic{font-size:11px;vertical-align:-.15em}
+.relic .art .ic{font-size:26px;width:1em;height:1em}
+.cell .t .ic{font-size:1.4em;opacity:.8}
+#board.focus .cell .t .ic{font-size:20px}
+.toast .ic{margin-right:.2em;color:var(--accent-2)}
+.xpfloat .ic{font-size:.9em}
+.empty .ic,.stat-tile b .ic{font-size:.9em}
+
+/* ---------- WARHAMMER (wh): угловатые пластины, заклёпки, строгий шрифт ---------- */
+body.fam-wh .btn,body.fam-wh .chip,body.fam-wh .tab-btn,body.fam-wh .seg button,body.fam-wh #nav button .lb{font-family:Georgia,"Times New Roman",serif;text-transform:uppercase;letter-spacing:.06em}
+body.fam-wh .btn{border-radius:2px;border-width:1px;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px);box-shadow:inset 0 0 0 2px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.22);font-size:12px}
+body.fam-wh .btn.sm{clip-path:polygon(5px 0,calc(100% - 5px) 0,100% 5px,100% calc(100% - 5px),calc(100% - 5px) 100%,5px 100%,0 calc(100% - 5px),0 5px);font-size:10.5px}
+body.fam-wh .chip,body.fam-wh .tab-btn{border-radius:2px;clip-path:polygon(5px 0,calc(100% - 5px) 0,100% 5px,100% calc(100% - 5px),calc(100% - 5px) 100%,5px 100%,0 calc(100% - 5px),0 5px)}
+body.fam-wh .tab-btn{font-size:10px}
+body.fam-wh .seg,body.fam-wh .seg button{border-radius:2px}
+body.fam-wh .panel{border-radius:4px;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px)}
+body.fam-wh .modal.panel,body.fam-wh .rel-card{clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px);border-radius:4px}
+body.fam-wh .cell{border-radius:2px}
+body.fam-wh .blk{border-radius:3px}
+body.fam-wh .relic,body.fam-wh .theme-pick,body.fam-wh .box,body.fam-wh .entry,body.fam-wh .ach,body.fam-wh .store-item,body.fam-wh .stat-tile{border-radius:3px}
+body.fam-wh .h2,body.fam-wh .modal h3{font-family:Georgia,"Times New Roman",serif;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+body.fam-wh #nav button .lb{font-size:9px}
+
+/* ---------- ONE PIECE (op): округлые «канатные» кнопки, швы, волны ---------- */
+body.fam-op .serif,body.fam-op .h2,body.fam-op .modal h3,body.fam-op .btn,body.fam-op .tab-btn,body.fam-op #nav button .lb,body.fam-op .chip,body.fam-op .seg button{font-family:ui-rounded,"SF Pro Rounded","Hiragino Maru Gothic ProN","Nunito","Trebuchet MS",system-ui,sans-serif;letter-spacing:0}
+body.fam-op .serif{font-weight:900}
+body.fam-op .btn{border-radius:999px;border-width:2px;font-weight:900;box-shadow:inset 0 -3px 0 rgba(0,0,0,.28),0 3px 0 rgba(0,0,0,.4);outline:2px dashed rgba(255,255,255,.3);outline-offset:-6px;padding-left:18px;padding-right:18px}
+body.fam-op .btn.sm{outline-offset:-4px;padding-left:12px;padding-right:12px}
+body.fam-op .btn:active{transform:translateY(2px);box-shadow:inset 0 -1px 0 rgba(0,0,0,.28),0 1px 0 rgba(0,0,0,.4)}
+body.fam-op .chip,body.fam-op .tab-btn,body.fam-op .seg,body.fam-op .seg button{border-radius:999px}
+body.fam-op .panel{border-radius:22px;border-width:3px;box-shadow:inset 0 0 0 4px rgba(0,0,0,.22),0 4px 0 rgba(0,0,0,.35)}
+body.fam-op .panel::before{display:none}
+body.fam-op .rivets{background-image:none}
+body.fam-op #hdr::after,body.fam-op #nav::after,body.fam-op #board::after,body.fam-op .view.panel::after{content:"";position:absolute;inset:6px;border:2px dashed rgba(255,255,255,.14);border-radius:16px;pointer-events:none}
+body.fam-op .cell{border-radius:8px}
+body.fam-op .blk{border-radius:14px}
+body.fam-op .relic,body.fam-op .theme-pick,body.fam-op .box,body.fam-op .entry,body.fam-op .ach,body.fam-op .store-item,body.fam-op .stat-tile{border-radius:16px}
+body.fam-op .relic .art,body.fam-op .rel-card .art{border-radius:50%}
+body.fam-op .rel-card{border-radius:26px;border-width:3px}
+body.fam-op .modal.panel{border-radius:24px}
+body.fam-op .h2,body.fam-op .modal h3{font-size:13.5px;font-weight:900}
+body.fam-op #bg{background-image:radial-gradient(circle at 22px 100%,transparent 18px,rgba(255,255,255,.07) 19px,rgba(255,255,255,.07) 22px,transparent 23px),radial-gradient(circle at 44px 100%,transparent 18px,rgba(255,255,255,.05) 19px,rgba(255,255,255,.05) 22px,transparent 23px);background-size:44px 26px,44px 40px;background-repeat:repeat-x;background-position:0 100%,22px 100%}
+
+/* ---------- SCROOGE GOLD (sc): золотые пластины, двойной контур ---------- */
+body.fam-sc .serif,body.fam-sc .h2,body.fam-sc .modal h3,body.fam-sc .btn,body.fam-sc .tab-btn,body.fam-sc #nav button .lb{font-family:Georgia,"Times New Roman",serif}
+body.fam-sc .btn{background:linear-gradient(180deg,#fde68a,#f59e0b 48%,#b45309);color:#3b1d02;border:1px solid #fef9c3;border-radius:8px;font-weight:900;text-shadow:0 1px 0 rgba(255,255,255,.45);box-shadow:inset 0 0 0 2px rgba(120,53,15,.35),inset 0 1px 0 rgba(255,255,255,.6),0 2px 4px rgba(0,0,0,.6)}
+body.fam-sc .btn.ghost{background:rgba(0,0,0,.55);color:var(--accent-2);text-shadow:none;border-color:var(--border);box-shadow:inset 0 0 0 1px rgba(251,191,36,.2)}
+body.fam-sc .btn.danger{background:linear-gradient(180deg,#7f1d1d,#450a0a);color:#fecaca;text-shadow:none;border-color:#b91c1c}
+body.fam-sc .tab-btn.active{background:linear-gradient(180deg,#fde68a,#d97706);color:#3b1d02}
+body.fam-sc .seg button.active{background:linear-gradient(180deg,#fde68a,#d97706);color:#3b1d02}
+body.fam-sc .panel{border-radius:12px;box-shadow:inset 0 0 0 3px rgba(0,0,0,.4),inset 0 0 0 4px rgba(251,191,36,.35),0 4px 8px rgba(0,0,0,.5)}
+body.fam-sc .cell,body.fam-sc .blk{border-radius:5px}
+body.fam-sc .cell.main{color:#3b1d02}
+body.fam-sc .cell.main .t{text-shadow:0 1px 0 rgba(255,255,255,.35)}
+body.fam-sc .h2,body.fam-sc .modal h3{font-style:italic;letter-spacing:.02em}
+body.fam-sc .xpbar i,body.fam-sc .bar i{background:linear-gradient(90deg,#b45309,#fde68a,#f59e0b)}
+
+/* иконки: цвета и мелкие поправки */
+.toast.err .ic{color:#fb7185}
+.ach .ic{color:var(--accent-2)}
+.ach .rw .ic{color:var(--accent-2)}
+.relic.locked .art .ic{color:var(--muted)}
+.relic.ready .art .ic{color:var(--accent-2)}
+@media (max-height:640px){#nav button .ic{font-size:19px}}

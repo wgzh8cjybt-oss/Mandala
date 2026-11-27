@@ -1,0 +1,38 @@
+/* ===== КОММЕНТАРИЙ К БЛОКУ (окошко под названием блока в режиме «Блок») ===== */
+.bnote{flex:0 0 auto;padding:0 4px}
+.bn-box{position:relative;height:76px;display:flex;flex-direction:column;justify-content:center;padding:7px 14px;border:1px solid var(--border);border-radius:12px;background:rgba(0,0,0,.55);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .2s,box-shadow .2s}
+.bn-box:active{border-color:var(--accent-2);box-shadow:0 0 10px var(--glow)}
+.bn-box:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.bn-txt{min-height:0;max-height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;text-align:center;font-size:13px;line-height:1.38;color:#e5e7eb;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
+.bn-txt.ph{color:var(--muted);font-weight:700;font-size:12px}
+.bn-txt::-webkit-scrollbar{width:4px}
+.bn-txt::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+.bn-txt.fb{-webkit-mask-image:linear-gradient(#000 calc(100% - 20px),transparent);mask-image:linear-gradient(#000 calc(100% - 20px),transparent)}
+.bn-txt.ft{-webkit-mask-image:linear-gradient(transparent,#000 20px);mask-image:linear-gradient(transparent,#000 20px)}
+.bn-txt.ft.fb{-webkit-mask-image:linear-gradient(transparent,#000 20px,#000 calc(100% - 20px),transparent);mask-image:linear-gradient(transparent,#000 20px,#000 calc(100% - 20px),transparent)}
+.bn-more{position:absolute;left:50%;bottom:0;transform:translateX(-50%);font-size:13px;line-height:1;color:var(--accent-2);opacity:0;pointer-events:none;transition:opacity .2s}
+.bn-box.more .bn-more{opacity:.95}
+.bn-more .ic{transform:rotate(90deg)}
+body.fam-wh .bn-box{border-radius:3px}
+body.fam-op .bn-box{border-radius:18px}
+body.fam-sc .bn-box{border-radius:6px}
+
+/* значок «у блока есть комментарий» в обзоре всей мандалы: только индикатор, нажатия пропускает */
+.bn-flag{position:absolute;right:-4px;top:-5px;width:16px;height:16px;border-radius:50%;background:var(--accent);border:1px solid var(--accent-2);color:#fff;display:none;align-items:center;justify-content:center;font-size:9px;pointer-events:none;z-index:3;box-shadow:0 0 6px var(--glow)}
+.bn-flag .ic{width:1em;height:1em;vertical-align:0}
+.blk.has-note .bn-flag{display:flex}
+#board.focus .bn-flag{display:none!important}
+
+/* окно редактирования */
+.bn-input{text-align:center;line-height:1.4;min-height:150px}
+.bn-count{text-align:right;margin-top:-2px}
+.ce-text{min-height:78px;line-height:1.35}
+
+/* режим «Блок»: длинная формулировка в ячейке уменьшается, чтобы читалась целиком */
+#board.focus .cell .t[data-l="2"]{font-size:.94em}
+#board.focus .cell .t[data-l="3"]{font-size:.86em;-webkit-line-clamp:6}
+#board.focus .cell .t[data-l="4"]{font-size:.78em;font-size:max(10px,.78em);-webkit-line-clamp:7}
+
+/* блокнот цели прямо в окне редактирования главной цели / подцели */
+.ce-book-l{font-size:11px;font-weight:800;color:var(--text-accent);margin:2px 2px -3px;text-align:left}
+.ce-book{min-height:76px;text-align:center;line-height:1.35}

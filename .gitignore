@@ -1,0 +1,10 @@
+dist/
+node_modules/
+tests/shots/
+data/
+*.db
+*.sqlite*
+*.onnx
+*.zip
+.env
+__pycache__/

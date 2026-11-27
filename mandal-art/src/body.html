@@ -1,0 +1,73 @@
+<div id="bg" aria-hidden="true"><canvas id="bgCanvas"></canvas><div id="skulls"></div></div>
+<div id="app">
+  <header id="hdr" class="panel rivets">
+    <div class="hdr-top">
+      <div class="goal">
+        <span class="seal" aria-hidden="true"><i class="ic" data-i="skull"></i></span>
+        <div class="titles"><div id="mTitle" class="serif">Главная цель Империума</div><div id="rankLine"></div></div>
+      </div>
+      <div class="wallet">
+        <button class="chip" data-act="store" aria-label="Склад: огоньки"><i class="ic" data-i="flame"></i><b id="flameCount">0</b></button>
+        <div class="chip" aria-label="Опыт"><i class="ic" data-i="star"></i><b id="xpCount">0 XP</b></div>
+      </div>
+    </div>
+    <div class="xpbar" aria-hidden="true"><i id="xpFill"></i></div>
+    <div class="hdr-tabs">
+      <div id="mandalaTabs" role="tablist" aria-label="Цели"></div>
+      <div class="hdr-btns">
+        <button class="btn sm" data-act="add-mandala"><i class="ic" data-i="plus"></i> Цель</button>
+        <button class="btn sm danger" data-act="del-mandala" aria-label="Удалить цель"><i class="ic" data-i="trash"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="views">
+    <section id="viewMandala" class="view">
+      <div class="m-tools">
+        <div class="stat">Зачищено: <b id="statTop">0 / 81</b></div>
+        <div class="seg" role="group" aria-label="Режим просмотра">
+          <button id="modeAll" data-act="mode-all" class="active">Вся мандала</button>
+          <button id="modeBlock" data-act="mode-block">Блок</button>
+        </div>
+      </div>
+      <div class="focus-nav hidden" id="focusNav">
+        <button class="btn sm ghost" data-act="focus-prev" aria-label="Предыдущий блок"><i class="ic" data-i="chevl"></i></button>
+        <div class="name" id="focusName"></div>
+        <button class="btn sm ghost" data-act="focus-next" aria-label="Следующий блок"><i class="ic" data-i="chevr"></i></button>
+      </div>
+      <div class="bnote hidden" id="blockNote">
+        <div class="bn-box" id="bnBox" data-act="note-edit" role="button" tabindex="0" aria-label="Комментарий к блоку. Нажмите, чтобы прочитать и изменить">
+          <div class="bn-txt" id="bnTxt"></div>
+          <i class="bn-more" aria-hidden="true"><i class="ic" data-i="chevr"></i></i>
+        </div>
+      </div>
+      <div class="due-strip hidden" id="dueStrip" data-act="goto-deadlines" role="button" tabindex="0" aria-label="Сроки задач: открыть календарь в аналитике"></div>
+      <div id="boardWrap"><div id="board" class="panel rivets"><div id="grid"></div></div></div>
+    </section>
+
+    <section id="viewDiary" class="view panel hidden">
+      <div class="scroll">
+        <h2 class="h2"><span id="diaryTitle"><i class="ic" data-i="scroll"></i> Журнал боевых донесений</span><span class="sub" id="diaryQuota"></span></h2>
+        <textarea id="diaryInput" class="field" rows="4" maxlength="2000" placeholder="Опишите хроники текущего дня..."></textarea>
+        <button id="btnDiary" class="btn block" data-act="save-diary">Внести в архивы (+20 XP)</button>
+        <div id="diaryList" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+    </section>
+
+    <section id="viewRelics" class="view panel hidden"><div class="scroll" id="relicsScroll"></div></section>
+    <section id="viewAnalytics" class="view panel hidden"><div class="scroll" id="anScroll"></div></section>
+    <section id="viewHQ" class="view panel hidden"><div class="scroll" id="hqScroll"></div></section>
+  </main>
+
+  <nav id="nav" class="panel" aria-label="Разделы">
+    <button data-tab="mandala" class="active"><i class="ic" data-i="target"></i><span class="lb" data-nav="0">Мандала</span></button>
+    <button data-tab="diary"><i class="ic" data-i="scroll"></i><span class="lb" data-nav="1">Архив</span></button>
+    <button data-tab="relics"><i class="ic" data-i="relic"></i><span class="lb" data-nav="2">Реликвии</span><span class="dot" id="dotRelics"></span></button>
+    <button data-tab="analytics"><i class="ic" data-i="chart"></i><span class="lb" data-nav="3">Аналитика</span></button>
+    <button data-tab="hq"><i class="ic" data-i="gear"></i><span class="lb" data-nav="4">Штаб</span></button>
+  </nav>
+</div>
+<div id="skullsFront" aria-hidden="true"></div>
+<canvas id="fxCanvas" aria-hidden="true"></canvas>
+<div id="toasts" aria-live="polite"></div>
+<div id="modalRoot"></div>

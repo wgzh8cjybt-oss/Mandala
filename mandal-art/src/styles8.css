@@ -1,0 +1,311 @@
+/* ===== ОБРАЗЫ ОФОРМЛЕНИЯ: стекло (Liquid Glass), грубый металл, классика =====
+   Образ не зависит от цветовой палитры: на <body> стоит look-glass | look-metal | look-classic (см. 03d-glass.js),
+   а цвета берутся из переменных темы. «Классика» — правила styles3/styles4 без изменений.
+   Классы g-* (g-panel, g-card, g-nav, g-modal, g-reward, g-btn) — это метки компонентов Glass из 03d-glass.js. */
+
+/* RGB-составляющие палитр: из них делаются прозрачные оттенки без color-mix() (он есть не во всех WebView) */
+:root,body.theme-wh40k{--acc-rgb:180,83,9;--acc2-rgb:245,158,11}
+body.theme-purple{--acc-rgb:139,92,246;--acc2-rgb:196,181,253}
+body.theme-cyan{--acc-rgb:16,185,129;--acc2-rgb:110,231,183}
+body.theme-red{--acc-rgb:244,63,94;--acc2-rgb:253,164,175}
+body.theme-amber{--acc-rgb:245,158,11;--acc2-rgb:252,211,77}
+body.theme-onepiece{--acc-rgb:2,132,199;--acc2-rgb:125,211,252}
+body.theme-scrooge{--acc-rgb:217,119,6;--acc2-rgb:254,240,138}
+
+/* ======================================================================
+   СТЕКЛО: полупрозрачные панели с размытием фона, световая кромка, объёмные стеклянные кнопки
+   ====================================================================== */
+body.look-glass{
+  --g-blur:20px;--g-base:rgba(var(--acc-rgb),.10);
+  --g-fill:linear-gradient(135deg,rgba(255,255,255,.15) 0%,rgba(255,255,255,.04) 42%,rgba(255,255,255,.02) 64%,rgba(var(--acc2-rgb),.09) 100%);
+  --g-inset:linear-gradient(160deg,rgba(255,255,255,.15),rgba(255,255,255,.04) 62%,rgba(var(--acc2-rgb),.07));
+  --g-hi:rgba(255,255,255,.55);
+  --border:rgba(255,255,255,.30);--border-soft:rgba(255,255,255,.17);--panel-in:rgba(255,255,255,.06);
+  background:radial-gradient(110% 60% at 50% -5%,rgba(var(--acc2-rgb),.26),transparent 62%),radial-gradient(80% 50% at 100% 100%,rgba(var(--acc-rgb),.34),transparent 66%),radial-gradient(70% 45% at 0% 72%,rgba(var(--acc-rgb),.20),transparent 70%),linear-gradient(165deg,var(--bg1) 0%,var(--bg2) 78%);
+}
+body.look-glass.fx-lite{--g-blur:9px;--g-base:rgba(var(--acc-rgb),.20)}
+body.look-glass.fx-off{--g-blur:0px;--g-base:var(--panel)}
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){body.look-glass{--g-base:var(--panel)}}
+
+/* медленно плывущие цветные пятна под стеклом: размывать на что-то */
+body.look-glass #bg::before,body.look-glass #bg::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none;will-change:transform}
+body.look-glass #bg::before{width:120vmax;height:120vmax;left:-38vmax;top:-64vmax;background:radial-gradient(circle,rgba(var(--acc-rgb),.34),transparent 62%);animation:gDriftA 38s ease-in-out infinite alternate}
+body.look-glass #bg::after{width:100vmax;height:100vmax;right:-42vmax;bottom:-58vmax;background:radial-gradient(circle,rgba(var(--acc2-rgb),.22),transparent 60%);animation:gDriftB 47s ease-in-out infinite alternate}
+@keyframes gDriftA{to{transform:translate3d(20vmax,14vmax,0) scale(1.1)}}
+@keyframes gDriftB{to{transform:translate3d(-18vmax,-12vmax,0) scale(1.12)}}
+body.look-glass.fx-lite #bg::before,body.look-glass.fx-lite #bg::after{animation:none}
+
+/* панели: стекло + световая кромка (градиентная рамка маской) + блик */
+body.look-glass .panel{
+  background:var(--g-fill),var(--g-base);
+  -webkit-backdrop-filter:blur(var(--g-blur)) saturate(1.7);backdrop-filter:blur(var(--g-blur)) saturate(1.7);
+  border:1px solid var(--border-soft);border-radius:22px;clip-path:none;
+  box-shadow:0 16px 36px rgba(0,0,0,.36),0 2px 6px rgba(0,0,0,.2),inset 0 1px 0 var(--g-hi),inset 0 -1px 0 rgba(255,255,255,.10),inset 0 0 30px rgba(var(--acc2-rgb),.10);
+}
+body.look-glass.fx-off .panel{-webkit-backdrop-filter:none;backdrop-filter:none}
+body.look-glass #nav{border-radius:28px}
+body.look-glass #board{border-radius:20px}
+body.look-glass .panel::before{
+  display:block;left:0;right:0;top:0;bottom:0;height:auto;border-radius:inherit;padding:1px;opacity:.9;
+  background:linear-gradient(145deg,rgba(255,255,255,.85),rgba(255,255,255,.12) 24%,rgba(255,255,255,0) 52%,rgba(var(--acc2-rgb),.6) 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+}
+body.look-glass #hdr::after,body.look-glass #nav::after,body.look-glass #board::after,body.look-glass .view.panel::after,body.look-glass .modal.panel::after{
+  content:"";position:absolute;inset:0;border:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(118deg,rgba(255,255,255,.17) 0%,rgba(255,255,255,.04) 24%,transparent 42%);
+}
+
+/* шрифты и подписи: без «военных» заглавных */
+body.look-glass .btn,body.look-glass .chip,body.look-glass .tab-btn,body.look-glass .seg button,body.look-glass #nav button .lb,body.look-glass .h2,body.look-glass .modal h3{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;text-transform:none;letter-spacing:.01em}
+body.look-glass .h2,body.look-glass .modal h3{font-size:13.5px;font-weight:800;font-style:normal}
+body.look-glass #nav button .lb{font-size:10px}
+
+/* кнопки: объёмное стекло — бегущий блик сверху, цветная линза снизу, яркая кромка */
+body.look-glass .btn{
+  position:relative;overflow:hidden;isolation:isolate;
+  color:#fff;border:1px solid rgba(255,255,255,.40);border-radius:16px;clip-path:none;outline:0;padding-left:16px;padding-right:16px;
+  font-weight:800;font-size:13px;
+  background:linear-gradient(180deg,rgba(255,255,255,.44) 0%,rgba(255,255,255,.12) 44%,rgba(255,255,255,0) 52%),linear-gradient(180deg,rgba(var(--acc2-rgb),.52),rgba(var(--acc-rgb),.74));
+  box-shadow:0 8px 18px rgba(var(--acc-rgb),.38),0 2px 4px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.7),inset 0 -10px 16px rgba(var(--acc-rgb),.38),inset 0 0 0 1px rgba(255,255,255,.05);
+  text-shadow:0 1px 2px rgba(0,0,0,.5);
+  transition:transform .16s cubic-bezier(.2,.9,.3,1.25),box-shadow .2s,filter .2s;
+}
+body.look-glass .btn.sm{border-radius:13px;clip-path:none;font-size:11.5px;padding-left:11px;padding-right:11px}
+body.look-glass .btn::before{content:"";position:absolute;left:12%;right:12%;bottom:2px;height:36%;border-radius:50%;background:radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.30),transparent 70%);pointer-events:none;z-index:-1}
+body.look-glass .btn::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--px,50%) var(--py,30%),rgba(255,255,255,.6),transparent 56%);transition:opacity .38s}
+body.look-glass .btn:active{transform:scale(.965);filter:none;box-shadow:0 3px 8px rgba(var(--acc-rgb),.35),0 1px 2px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -6px 10px rgba(var(--acc-rgb),.48)}
+body.look-glass .btn:active::after{opacity:1;transition:none}
+body.look-glass .btn.ghost{
+  color:var(--accent-2);text-shadow:none;border-color:rgba(255,255,255,.30);
+  background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,.07) 48%,rgba(255,255,255,.04));
+  box-shadow:0 6px 14px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -8px 14px rgba(255,255,255,.04);
+}
+body.look-glass .btn.danger{
+  color:#fff1f2;border-color:rgba(254,202,202,.45);
+  background:linear-gradient(180deg,rgba(255,255,255,.40) 0%,rgba(255,255,255,.10) 44%,rgba(255,255,255,0) 52%),linear-gradient(180deg,rgba(248,113,113,.50),rgba(185,28,28,.78));
+  box-shadow:0 8px 18px rgba(220,38,38,.34),0 2px 4px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.65),inset 0 -10px 16px rgba(153,27,27,.4);
+}
+body.look-glass .btn:disabled{filter:grayscale(.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+
+/* чипы, вкладки целей, переключатель режимов: стеклянные капсулы */
+body.look-glass .chip,body.look-glass .tab-btn{
+  border-radius:999px;clip-path:none;border:1px solid rgba(255,255,255,.26);
+  background:var(--g-inset);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 2px 6px rgba(0,0,0,.25);
+}
+body.look-glass .tab-btn{color:rgba(255,255,255,.72)}
+body.look-glass .tab-btn.active{
+  color:#fff;border-color:rgba(255,255,255,.6);
+  background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(var(--acc2-rgb),.36) 46%,rgba(var(--acc-rgb),.74));
+  box-shadow:0 0 14px rgba(var(--acc-rgb),.65),inset 0 1px 0 rgba(255,255,255,.75);
+}
+body.look-glass .seg{border-radius:999px;padding:2px;gap:2px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);box-shadow:inset 0 1px 2px rgba(0,0,0,.3)}
+body.look-glass .seg button{border-radius:999px;background:transparent;color:rgba(255,255,255,.7)}
+body.look-glass .seg button.active{
+  color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.40),rgba(var(--acc2-rgb),.34) 46%,rgba(var(--acc-rgb),.7));
+  box-shadow:0 0 12px rgba(var(--acc-rgb),.55),inset 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* нижняя навигация: капсула, активная вкладка — «линза» с подсветкой */
+body.look-glass #nav button{isolation:isolate;border-radius:20px;color:rgba(255,255,255,.62)}
+body.look-glass #nav button.active{color:#fff}
+body.look-glass #nav button.active::before{
+  content:"";position:absolute;inset:0 4px;border-radius:20px;z-index:-1;
+  background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.07));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(255,255,255,.12),0 0 18px rgba(var(--acc-rgb),.55),0 4px 10px rgba(0,0,0,.25);
+}
+
+/* шкалы */
+body.look-glass .xpbar,body.look-glass .bar{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 2px rgba(0,0,0,.4)}
+body.look-glass .xpbar i,body.look-glass .bar i{background:linear-gradient(90deg,rgba(var(--acc-rgb),.95),rgba(var(--acc2-rgb),.98));box-shadow:0 0 10px rgba(var(--acc2-rgb),.7),inset 0 1px 0 rgba(255,255,255,.6)}
+
+/* мандала: блоки и ячейки — стекло без размытия (81 размытий были бы тяжёлыми) */
+body.look-glass .blk{border-radius:15px;background:rgba(255,255,255,.035);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 0 14px rgba(var(--acc2-rgb),.07)}
+body.look-glass .blk.core{border-color:rgba(var(--acc2-rgb),.75);box-shadow:0 0 14px rgba(var(--acc-rgb),.4),inset 0 1px 0 rgba(255,255,255,.3)}
+body.look-glass .blk.full{border-color:rgba(var(--acc2-rgb),.9);box-shadow:0 0 18px rgba(var(--acc-rgb),.65),inset 0 0 14px rgba(var(--acc2-rgb),.28)}
+body.look-glass .cell{border-radius:9px;background:var(--g-inset);color:rgba(255,255,255,.78);box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 1px 3px rgba(0,0,0,.25)}
+body.look-glass #board.focus .cell{border-radius:14px}
+body.look-glass .cell.sub{background:linear-gradient(160deg,rgba(var(--acc2-rgb),.34),rgba(var(--acc-rgb),.16));border-color:rgba(var(--acc2-rgb),.5);color:#fff}
+body.look-glass .cell.main{
+  background:radial-gradient(circle at 50% 28%,rgba(255,255,255,.55),rgba(var(--acc2-rgb),.55) 36%,rgba(var(--acc-rgb),.88));border-color:rgba(255,255,255,.7);color:#fff;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.6),inset 0 -6px 10px rgba(var(--acc-rgb),.6),0 0 16px rgba(var(--acc-rgb),.5);
+}
+body.look-glass .cell.done{background:linear-gradient(160deg,rgba(var(--acc2-rgb),.58),rgba(var(--acc-rgb),.36));border-color:rgba(255,255,255,.55);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 10px rgba(var(--acc-rgb),.45)}
+body.look-glass .cell.main.done{background:radial-gradient(circle at 50% 28%,rgba(255,255,255,.65),rgba(var(--acc2-rgb),.7) 40%,rgba(var(--acc-rgb),.9))}
+body.look-glass .cell.locked{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.06);color:rgba(255,255,255,.4);box-shadow:none}
+body.look-glass .cell .t{text-shadow:0 1px 1px rgba(0,0,0,.35)}
+body.look-glass .bn-box{border-radius:16px;background:var(--g-inset);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+
+/* карточки внутри панелей (GlassCard): .box, записи, реликвии, темы, достижения, лавка, плитки */
+body.look-glass .box,body.look-glass .entry,body.look-glass .ach,body.look-glass .store-item,body.look-glass .stat-tile,body.look-glass .chk,body.look-glass .relic,body.look-glass .theme-pick,body.look-glass .heat i{
+  background:var(--g-inset);border-radius:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 4px 12px rgba(0,0,0,.18);
+}
+body.look-glass .ach,body.look-glass .store-item,body.look-glass .chk,body.look-glass .stat-tile,body.look-glass .heat i{border-radius:14px}
+body.look-glass .relic.locked{background:rgba(255,255,255,.03);box-shadow:none}
+body.look-glass .relic.ready{background:linear-gradient(160deg,rgba(var(--acc2-rgb),.28),rgba(var(--acc-rgb),.12))}
+body.look-glass .relic .art,body.look-glass .rel-card .art{border-radius:16px;background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.26),rgba(var(--acc-rgb),.26) 55%,rgba(0,0,0,.35));box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -12px 20px rgba(0,0,0,.22)}
+body.look-glass .theme-pick.active{background:linear-gradient(160deg,rgba(var(--acc2-rgb),.3),rgba(var(--acc-rgb),.14))}
+body.look-glass .ach.on{background:linear-gradient(160deg,rgba(var(--acc2-rgb),.24),rgba(var(--acc-rgb),.1))}
+
+/* поля ввода и переключатели */
+body.look-glass .field{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.26);border-radius:14px;box-shadow:inset 0 2px 5px rgba(0,0,0,.3);color:#fff}
+body.look-glass .field:focus{border-color:rgba(var(--acc2-rgb),.9);box-shadow:inset 0 2px 5px rgba(0,0,0,.3),0 0 0 3px rgba(var(--acc-rgb),.35)}
+body.look-glass .switch{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 1px 3px rgba(0,0,0,.35)}
+body.look-glass .switch::after{background:linear-gradient(180deg,#fff,rgba(255,255,255,.7));box-shadow:0 2px 4px rgba(0,0,0,.4)}
+body.look-glass .switch.on{background:linear-gradient(180deg,rgba(var(--acc2-rgb),.75),rgba(var(--acc-rgb),.9));box-shadow:0 0 10px rgba(var(--acc-rgb),.55),inset 0 1px 0 rgba(255,255,255,.5)}
+
+/* модальные окна и награда (GlassModal, GlassRewardCard) */
+body.look-glass .overlay{background:rgba(2,8,20,.5);animation:none}
+body.look-glass .modal.panel{border-radius:28px;clip-path:none;-webkit-backdrop-filter:blur(calc(var(--g-blur) + 6px)) saturate(1.8);backdrop-filter:blur(calc(var(--g-blur) + 6px)) saturate(1.8);background:var(--g-fill),rgba(var(--acc-rgb),.20)}
+body.look-glass.fx-off .modal.panel{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--g-fill),var(--panel)}
+body.look-glass.fx-lite .modal.panel{background:var(--g-fill),rgba(var(--acc-rgb),.30)}
+body.look-glass .reveal{background:rgba(2,8,20,.58);animation:none}
+body.look-glass .rel-card{
+  border:1px solid rgba(255,255,255,.34);border-radius:30px;clip-path:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.05) 46%,rgba(var(--acc2-rgb),.14)),rgba(var(--acc-rgb),.16);
+  -webkit-backdrop-filter:blur(18px) saturate(1.8);backdrop-filter:blur(18px) saturate(1.8);
+  box-shadow:0 20px 50px rgba(0,0,0,.45),0 0 40px rgba(var(--acc-rgb),.45),inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 40px rgba(var(--acc2-rgb),.15);
+}
+body.look-glass.fx-off .rel-card{-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),var(--panel)}
+body.look-glass .toast{
+  background:linear-gradient(160deg,rgba(255,255,255,.2),rgba(255,255,255,.06)),rgba(var(--acc-rgb),.34);border:1px solid rgba(255,255,255,.4);border-radius:18px;
+  -webkit-backdrop-filter:blur(14px) saturate(1.7);backdrop-filter:blur(14px) saturate(1.7);
+  box-shadow:0 10px 26px rgba(0,0,0,.45),0 0 16px rgba(var(--acc-rgb),.4),inset 0 1px 0 rgba(255,255,255,.6);
+}
+body.look-glass .toast.err{background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.05)),rgba(220,38,38,.4);border-color:rgba(254,202,202,.5)}
+body.look-glass.fx-off .toast{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,10,14,.96)}
+body.look-glass .levelup{background:radial-gradient(circle,rgba(2,8,20,.5),rgba(2,8,20,.84))}
+
+/* ======================================================================
+   МЕТАЛЛ: грубая сталь, склёпанные плиты, царапины, ржавые подтёки, тяжёлые кнопки
+   ====================================================================== */
+body.look-metal{
+  --border:#07090c;--border-soft:rgba(0,0,0,.72);--panel:rgba(24,27,33,.97);--panel-in:rgba(0,0,0,.34);
+  --m-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g' color-interpolation-filters='sRGB' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.1 -.5'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E");
+  --m-pits:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='130'%3E%3Cfilter id='p' color-interpolation-filters='sRGB' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.3 -.55'/%3E%3C/filter%3E%3Crect width='130' height='130' filter='url(%23p)'/%3E%3C/svg%3E");
+  --m-rust:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='r' color-interpolation-filters='sRGB' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.05 .008' numOctaves='3' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .24 0 0 0 0 .06 0 0 0 1.7 -.9'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23r)'/%3E%3C/svg%3E");
+  --m-scr:linear-gradient(103deg,transparent 0 31%,rgba(255,255,255,.14) 31.2%,transparent 31.9% 100%),linear-gradient(77deg,transparent 0 63%,rgba(255,255,255,.10) 63.3%,transparent 64.1% 100%),linear-gradient(112deg,transparent 0 82%,rgba(0,0,0,.4) 82.3%,transparent 83% 100%);
+}
+body.look-metal{background:radial-gradient(120% 70% at 50% 0%,rgba(var(--acc-rgb),.16),transparent 62%),linear-gradient(165deg,#14171c 0%,#06070a 74%)}
+
+/* панели: тяжёлая плита с неровно срезанными углами, болтами, ржавыми подтёками */
+body.look-metal .panel{
+  border:3px solid #07090c;border-radius:3px;
+  clip-path:polygon(11px 0,calc(100% - 8px) 0,100% 10px,100% calc(100% - 8px),calc(100% - 10px) 100%,7px 100%,0 calc(100% - 11px),0 9px);
+  background:var(--m-grain),var(--m-rust),linear-gradient(180deg,rgba(255,255,255,.07),rgba(0,0,0,.3)),linear-gradient(160deg,#2c3037 0%,#1c1f24 55%,#131519 100%);
+  box-shadow:inset 0 0 0 1px rgba(var(--acc2-rgb),.40),inset 0 3px 0 rgba(255,255,255,.08),inset 0 -4px 0 rgba(0,0,0,.65),inset 0 0 34px rgba(0,0,0,.7);
+}
+body.look-metal .panel.rivets{
+  background:radial-gradient(circle at 10px 10px,#d8d1bd 0 1px,#857f70 1.9px,#34312a 3.2px,#0b0a08 4px,transparent 4.5px),
+    radial-gradient(circle at calc(100% - 10px) 10px,#d8d1bd 0 1px,#857f70 1.9px,#34312a 3.2px,#0b0a08 4px,transparent 4.5px),
+    radial-gradient(circle at 10px calc(100% - 10px),#d8d1bd 0 1px,#857f70 1.9px,#34312a 3.2px,#0b0a08 4px,transparent 4.5px),
+    radial-gradient(circle at calc(100% - 10px) calc(100% - 10px),#d8d1bd 0 1px,#857f70 1.9px,#34312a 3.2px,#0b0a08 4px,transparent 4.5px),
+    var(--m-grain),var(--m-rust),linear-gradient(180deg,rgba(255,255,255,.07),rgba(0,0,0,.3)),linear-gradient(160deg,#2c3037 0%,#1c1f24 55%,#131519 100%);
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat,repeat,no-repeat,no-repeat;
+}
+body.look-metal #nav{border-radius:3px}
+body.look-metal #hdr::after,body.look-metal #nav::after,body.look-metal #board::after,body.look-metal .view.panel::after{display:none}
+body.look-metal .modal.panel{clip-path:polygon(13px 0,calc(100% - 9px) 0,100% 11px,100% calc(100% - 9px),calc(100% - 12px) 100%,8px 100%,0 calc(100% - 12px),0 10px);border-radius:4px}
+
+/* шрифты: плотные засечки, заглавные, как выбитая надпись */
+body.look-metal .btn,body.look-metal .chip,body.look-metal .tab-btn,body.look-metal .seg button,body.look-metal #nav button .lb,body.look-metal .h2,body.look-metal .modal h3{font-family:Georgia,"Times New Roman",serif;text-transform:uppercase;letter-spacing:.07em;font-style:normal}
+body.look-metal .h2,body.look-metal .modal h3{font-size:12px;font-weight:900;text-shadow:0 1px 0 rgba(0,0,0,.8)}
+body.look-metal #nav button .lb{font-size:9px;font-weight:900}
+
+/* кнопки: стальная плита с фаской, заклёпками по бокам, царапинами и ржавчиной; нажатие — «клац» без плавности */
+body.look-metal .btn{
+  position:relative;color:#f0e4c4;border:3px solid;border-color:#8d9199 #2a2d33 #0f1114 #5c6169;border-radius:2px;outline:0;
+  clip-path:polygon(7px 0,calc(100% - 4px) 0,100% 6px,100% calc(100% - 8px),calc(100% - 7px) 100%,5px 100%,0 calc(100% - 5px),0 8px);
+  padding-left:22px;padding-right:22px;font-weight:900;font-size:12px;
+  background:radial-gradient(circle at 8px 50%,#d8d1bd 0 .9px,#857f70 1.7px,#34312a 2.8px,#0b0a08 3.5px,transparent 4px),radial-gradient(circle at calc(100% - 8px) 50%,#d8d1bd 0 .9px,#857f70 1.7px,#34312a 2.8px,#0b0a08 3.5px,transparent 4px),var(--m-grain),var(--m-rust),var(--m-scr),linear-gradient(180deg,rgba(255,255,255,.16),rgba(0,0,0,.38)),linear-gradient(180deg,rgba(var(--acc-rgb),.95),rgba(var(--acc-rgb),.5)),#2b2e34;
+  text-shadow:0 -1px 0 rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.2);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.18),inset 0 -3px 0 rgba(0,0,0,.5),inset 0 0 12px rgba(0,0,0,.5);
+  transition:none;
+}
+body.look-metal .btn.sm{padding-left:18px;padding-right:18px;font-size:10.5px;border-width:2px;border-radius:2px;clip-path:polygon(5px 0,calc(100% - 3px) 0,100% 5px,100% calc(100% - 6px),calc(100% - 5px) 100%,4px 100%,0 calc(100% - 4px),0 6px)}
+body.look-metal .btn:active{transform:translateY(2px);filter:brightness(.9);border-color:#0f1114 #5c6169 #8d9199 #2a2d33;box-shadow:inset 0 5px 10px rgba(0,0,0,.78),inset 0 0 0 1px rgba(0,0,0,.6)}
+body.look-metal .btn.ghost{
+  color:var(--accent-2);border-color:#6f747d #23262b #0d0f12 #474b53;
+  background:radial-gradient(circle at 8px 50%,#bdb7a6 0 .9px,#6d685c 1.7px,#2c2a24 2.8px,#0b0a08 3.5px,transparent 4px),radial-gradient(circle at calc(100% - 8px) 50%,#bdb7a6 0 .9px,#6d685c 1.7px,#2c2a24 2.8px,#0b0a08 3.5px,transparent 4px),var(--m-grain),var(--m-scr),linear-gradient(180deg,rgba(255,255,255,.1),rgba(0,0,0,.42)),linear-gradient(180deg,#3b3f47,#1d2025);
+}
+body.look-metal .btn.danger{
+  color:#ffe4e0;border-color:#a05a52 #3a1512 #140605 #6e332d;
+  background:radial-gradient(circle at 8px 50%,#d8d1bd 0 .9px,#857f70 1.7px,#34312a 2.8px,#0b0a08 3.5px,transparent 4px),radial-gradient(circle at calc(100% - 8px) 50%,#d8d1bd 0 .9px,#857f70 1.7px,#34312a 2.8px,#0b0a08 3.5px,transparent 4px),var(--m-grain),var(--m-rust),var(--m-scr),linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.4)),linear-gradient(180deg,#8f1d1d,#4a0a0a);
+}
+body.look-metal .btn.danger::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:repeating-linear-gradient(135deg,#f5c518 0 6px,#17130a 6px 12px);opacity:.92;pointer-events:none}
+body.look-metal .btn:disabled{filter:grayscale(.8) brightness(.8)}
+
+/* чипы, вкладки целей, переключатель режимов: малые плиты */
+body.look-metal .chip,body.look-metal .tab-btn{
+  color:#e7e0cc;border:2px solid;border-color:#6d727b #1c1f24 #0d0f12 #444952;border-radius:2px;
+  clip-path:polygon(4px 0,calc(100% - 3px) 0,100% 4px,100% calc(100% - 5px),calc(100% - 4px) 100%,3px 100%,0 calc(100% - 3px),0 5px);
+  background:var(--m-grain),linear-gradient(180deg,#3b3f47,#1b1d22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -2px 0 rgba(0,0,0,.5);
+}
+body.look-metal .tab-btn{color:#a9adb5}
+body.look-metal .tab-btn.active{
+  color:#fff2d0;border-color:#b09a6a #3a2b12 #1a1308 #7c6b4a;
+  background:var(--m-grain),linear-gradient(180deg,rgba(var(--acc-rgb),.95),rgba(var(--acc-rgb),.52)),#2b2e34;
+  box-shadow:inset 0 0 8px rgba(var(--acc2-rgb),.55),inset 0 -2px 0 rgba(0,0,0,.45);
+}
+body.look-metal .seg{border:2px solid #07090c;border-radius:2px;background:#0d0f12}
+body.look-metal .seg button{border-radius:0;color:#a9adb5;background:var(--m-grain),linear-gradient(180deg,#363a42,#1d2025);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.5)}
+body.look-metal .seg button.active{color:#fff2d0;background:var(--m-grain),linear-gradient(180deg,rgba(var(--acc-rgb),.95),rgba(var(--acc-rgb),.52)),#2b2e34;box-shadow:inset 0 0 8px rgba(var(--acc2-rgb),.5),inset 0 -2px 0 rgba(0,0,0,.45)}
+
+/* навигация: у активной вкладки горит лампа */
+body.look-metal #nav button{color:#8d919a}
+body.look-metal #nav button.active{color:var(--accent-2)}
+body.look-metal #nav button.active::after{content:"";position:absolute;left:24%;right:24%;bottom:0;height:3px;border-radius:1px;background:var(--accent-2);box-shadow:0 0 9px var(--glow)}
+
+/* шкалы и поля */
+body.look-metal .xpbar,body.look-metal .bar{border-radius:1px;background:#0b0c0f;border:1px solid #000;box-shadow:inset 0 2px 4px rgba(0,0,0,.8)}
+body.look-metal .xpbar i,body.look-metal .bar i{background:linear-gradient(180deg,rgba(var(--acc2-rgb),.95),rgba(var(--acc-rgb),.95));box-shadow:0 0 8px var(--glow)}
+body.look-metal .field{background:#0c0e11;border:2px solid;border-color:#06070a #3b3f46 #4a4f58 #06070a;border-radius:2px;box-shadow:inset 0 3px 8px rgba(0,0,0,.8);color:#efe9d8}
+body.look-metal .field:focus{border-color:#06070a var(--accent-2) var(--accent-2) #06070a;box-shadow:inset 0 3px 8px rgba(0,0,0,.8),0 0 0 2px var(--accent-soft2)}
+body.look-metal .switch{border-radius:3px;background:#15171b;border:2px solid;border-color:#06070a #3a3e46 #4a4f58 #06070a;box-shadow:inset 0 2px 5px rgba(0,0,0,.8)}
+body.look-metal .switch::after{border-radius:2px;background:linear-gradient(180deg,#9a9ea7,#4b4f57)}
+body.look-metal .switch.on{background:rgba(var(--acc-rgb),.92)}
+body.look-metal .switch.on::after{background:linear-gradient(180deg,#f3e8c8,#a89a72)}
+
+/* мандала: блоки и ячейки — гравированные стальные пластины */
+body.look-metal .blk{border-radius:2px;border:2px solid #090a0c;background:var(--m-grain),linear-gradient(160deg,#252830,#15171b);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 0 10px rgba(0,0,0,.6)}
+body.look-metal .blk.core{border-color:var(--accent-2);box-shadow:0 0 10px var(--accent-soft2),inset 0 0 10px rgba(0,0,0,.6)}
+body.look-metal .blk.full{border-color:var(--accent-2);box-shadow:0 0 14px var(--glow),inset 0 0 12px var(--accent-soft2)}
+body.look-metal .cell{
+  border-radius:1px;border:1px solid;border-color:#5b6069 #15171b #0b0c0f #3c4047;color:#b7bac1;
+  background:var(--m-grain),var(--m-pits),linear-gradient(170deg,#363a42,#22252b);box-shadow:inset 0 1px 0 rgba(255,255,255,.09);
+}
+body.look-metal #board.focus .cell{border-radius:2px}
+body.look-metal .cell.sub{background:var(--m-grain),linear-gradient(170deg,rgba(var(--acc-rgb),.55),rgba(var(--acc-rgb),.2)),#23262c;color:#f3e2b8;border-color:rgba(var(--acc2-rgb),.55) #15171b #0b0c0f rgba(var(--acc2-rgb),.35)}
+body.look-metal .cell.main{
+  background:var(--m-grain),radial-gradient(circle at 50% 35%,rgba(var(--acc2-rgb),.96),rgba(var(--acc-rgb),.92) 72%),#3a2a10;color:#2a1704;text-shadow:0 1px 0 rgba(255,255,255,.35);
+  border-color:#eadba2 #6b5320 #2a1d08 #a68b3d;box-shadow:inset 0 2px 0 rgba(255,255,255,.4),inset 0 -3px 0 rgba(0,0,0,.35);
+}
+body.look-metal .cell.done{background:var(--m-grain),linear-gradient(170deg,var(--done-bg),rgba(0,0,0,.35)),#22252b;color:var(--done-text);border-color:var(--done-border);box-shadow:inset 0 0 10px rgba(var(--acc-rgb),.35)}
+body.look-metal .cell.main.done{background:var(--m-grain),radial-gradient(circle at 50% 35%,var(--done-border),var(--done-bg)),#22252b;color:#fff}
+body.look-metal .cell.locked{background:#0b0c0f;border-color:#000;color:#4a4d54;box-shadow:none}
+body.look-metal .bn-box{border-radius:2px;background:var(--m-grain),linear-gradient(180deg,#14161a,#1c1f24);border:2px solid;border-color:#07090c #3a3e46 #484d56 #07090c;box-shadow:inset 0 3px 8px rgba(0,0,0,.7)}
+
+/* карточки: плиты с фаской */
+body.look-metal .box,body.look-metal .entry,body.look-metal .ach,body.look-metal .store-item,body.look-metal .stat-tile,body.look-metal .chk,body.look-metal .relic,body.look-metal .theme-pick,body.look-metal .heat i{
+  background:var(--m-grain),linear-gradient(170deg,rgba(255,255,255,.07),rgba(0,0,0,.3)),#1e2126;
+  border:2px solid;border-color:#4b5059 #121418 #0a0b0e #31353c;border-radius:2px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 0 0 14px rgba(0,0,0,.45);
+}
+body.look-metal .relic.locked{background:var(--m-grain),#0e0f12;border-color:#2a2c31 #0a0b0d #050506 #1d1f23;box-shadow:none}
+body.look-metal .relic.ready{border-color:var(--accent-2)}
+body.look-metal .theme-pick.active,body.look-metal .ach.on{border-color:var(--accent-2)}
+body.look-metal .relic .art,body.look-metal .rel-card .art{border-radius:2px;border:2px solid #07090c;background:radial-gradient(circle at 50% 35%,var(--accent-soft2),rgba(0,0,0,.75))}
+body.look-metal .rel-card{border-radius:4px;clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px)}
+body.look-metal .toast{
+  background:var(--m-grain),linear-gradient(180deg,#3b3f47,#17191d);border:2px solid;border-color:#7a7f88 #1c1f24 #0a0b0d #4c5058;border-radius:2px;
+  box-shadow:0 6px 18px rgba(0,0,0,.7),inset 0 0 0 1px rgba(0,0,0,.5);text-shadow:0 -1px 0 #000;
+}
+body.look-metal .toast.err{border-color:#b85a52 #3a1512 #140605 #7c3a34}
+
+/* ======================================================================
+   Классический образ (look-classic): отдельных правил не требуется — действуют styles3/styles4 по семейству темы.
+   ====================================================================== */
+
+@media (prefers-reduced-motion:reduce){
+  body.look-glass #bg::before,body.look-glass #bg::after{animation:none}
+}

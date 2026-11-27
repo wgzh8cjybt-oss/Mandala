@@ -1,0 +1,29 @@
+/* ===== доп. слой сервочерепов и облегчённый режим ===== */
+#skullsFront{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden;contain:strict}
+.skull .eye-lens,.skull .jaw{animation-delay:var(--d,0s)}
+body.fx-lite .skull .eye-lens,body.fx-lite .skull .jaw,body.fx-lite .skull .beacon{animation:none}
+body.fx-off #skullsFront{display:none}
+.relic.ready .art{filter:none;font-size:24px}
+.pill{display:inline-block;border:1px solid var(--border-soft);background:rgba(0,0,0,.5);border-radius:8px;padding:2px 7px;font-size:10px;font-weight:800;color:var(--text-accent)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.note{font-size:11px;color:var(--muted);line-height:1.4}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#71717a;margin-right:6px;vertical-align:middle}
+.status-dot.ok{background:#22c55e;box-shadow:0 0 6px #22c55e}.status-dot.warn{background:#f59e0b}.status-dot.bad{background:#ef4444}
+
+/* чайки (op) и монеты (sc) */
+.skull.op .wing{transform-box:view-box;animation:flapL .5s ease-in-out infinite alternate;animation-delay:var(--d,0s)}
+.skull.op .wl{transform-origin:58px 38px}
+.skull.op .wr{transform-origin:62px 38px;animation-name:flapR}
+@keyframes flapL{from{transform:rotate(-22deg)}to{transform:rotate(24deg)}}
+@keyframes flapR{from{transform:rotate(22deg)}to{transform:rotate(-24deg)}}
+.skull.sc .coin-spin{transform-box:view-box;transform-origin:50px 50px;animation:coinSpin 2.8s linear infinite;animation-delay:var(--d,0s)}
+@keyframes coinSpin{0%{transform:scaleX(1)}25%{transform:scaleX(.08)}50%{transform:scaleX(-1)}75%{transform:scaleX(.08)}100%{transform:scaleX(1)}}
+body.fx-lite .skull .wing,body.fx-lite .skull .coin-spin{animation:none}
+@media (prefers-reduced-motion:reduce){.skull .wing,.skull .coin-spin{animation:none!important}}
+
+/* сервочереп-картинка: слой рисунка + пульсирующее свечение глаза */
+.skull .sk-img{position:absolute;inset:0;background-position:center;background-size:contain;background-repeat:no-repeat;filter:drop-shadow(0 3px 5px rgba(0,0,0,.6))}
+.skull .sk-eye{position:absolute;left:19.8%;top:46.3%;width:27%;height:24%;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,96,72,.92) 0,rgba(255,40,25,.42) 38%,rgba(255,30,20,0) 70%);animation:skEye 2.6s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes skEye{0%,100%{opacity:.45;transform:translate(-50%,-50%) scale(.9)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}}
+body.fx-lite .skull .sk-eye{animation:none;opacity:.7}
+@media (prefers-reduced-motion:reduce){.skull .sk-eye{animation:none!important;opacity:.7}}

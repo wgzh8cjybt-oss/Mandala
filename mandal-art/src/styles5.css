@@ -1,0 +1,97 @@
+/* ===== сервочереп v2: двигатели, дым, кабели; сценка поломки и техножрецы ===== */
+.skull .sk-fx{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.skull .sk-body{position:absolute;inset:0}
+/* кабели внизу покачиваются отдельным слоем; шов скрыт плавным переходом масок */
+/* шов по ~76% высоты: верхний слой обрезан clip-path (дешевле маски), нижний качается вокруг точки шва */
+.skull .sk-hi{clip-path:inset(0 -20% 23.5% -20%)}
+.skull .sk-lo{filter:none;clip-path:inset(72% -30% 0 -30%);transform-origin:50% 72%;animation:skSway 3.6s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes skSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3.2deg)}}
+
+/* струи: длина и толщина зависят от тяги (--thr 0..1, выставляет скрипт), мерцание — CSS */
+.skull .jet{transform-box:fill-box;transform-origin:0 50%;animation:jetFlick var(--jp,.2s) linear infinite alternate;animation-delay:var(--jd,0s);scale:calc(.42 + var(--thr,.6) * .9) calc(.7 + var(--thr,.6) * .4);transition:scale .45s ease-out,opacity .2s}
+.skull .jet.jh{scale:calc(.88 + var(--thr,.6) * .22) calc(.92 + var(--thr,.6) * .16)}
+@keyframes jetFlick{0%{transform:scale(.86,.9)}30%{transform:scale(1.1,1.06)}55%{transform:scale(.94,.86)}100%{transform:scale(1.18,1)}}
+.skull .jet .fc{animation:coreFlick .11s steps(2,end) infinite alternate}
+@keyframes coreFlick{from{opacity:.72}to{opacity:1}}
+.skull .jet .dia{opacity:.8;animation:diaBlink .16s steps(1,end) infinite}
+.skull .jet .dia.d2{animation-delay:-.08s}
+@keyframes diaBlink{0%{opacity:.85}50%{opacity:.2}}
+.skull .bloom{transform-box:fill-box;transform-origin:50% 50%;animation:bloomPulse .5s ease-in-out infinite alternate}
+.skull .bloom.b2{animation-delay:-.2s}.skull .bloom.b3{animation-duration:.8s;animation-delay:-.3s}
+@keyframes bloomPulse{from{opacity:.55;transform:scale(.88)}to{opacity:1;transform:scale(1.12)}}
+/* кольца антигравитационного поля расходятся вниз от ствола */
+.skull .ring{transform-box:fill-box;transform-origin:50% 0;opacity:0;animation:ringPulse 1.5s ease-out infinite}
+.skull .ring.r2{animation-delay:-.75s}
+@keyframes ringPulse{0%{opacity:.75;transform:translateY(0) scale(.5)}100%{opacity:0;transform:translateY(34px) scale(1.5)}}
+/* искры из сопел */
+.skull .spk{opacity:0;animation:spkFly .7s linear infinite}
+@keyframes spkFly{0%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(var(--sx),var(--sy))}}
+/* дым трубы поднимается и уходит назад (вправо — у черепа он смотрит влево, при зеркалировании всё остаётся «позади») */
+.skull .sm{transform-box:fill-box;transform-origin:50% 50%;opacity:0;animation:smRise 2.4s ease-out infinite}
+.skull .sm.s2{animation-delay:-.6s}.skull .sm.s3{animation-delay:-1.2s}.skull .sm.s4{animation-delay:-1.8s}
+@keyframes smRise{0%{opacity:0;transform:translate(0,0) scale(.4)}14%{opacity:.95}100%{opacity:0;transform:translate(var(--dx,24px),var(--dy,-60px)) scale(2)}}
+.skull .sm.dk{animation:none;opacity:0}
+/* электрические разряды — только при поломке */
+.skull .arc{fill:none;stroke:#c6ecff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+
+/* фоновые (дальние) черепа рисуются проще: меньше анимированных узлов */
+.skull.sk-bg .ring,.skull.sk-bg .spk,.skull.sk-bg .sm.s3,.skull.sk-bg .sm.s4,.skull.sk-bg .dia,.skull.sk-bg .bloom.b3{display:none}
+.skull.sk-bg .jet .fc{animation:none}
+.skull .jet .fc{animation:none}
+
+/* --- состояния сценки: сбой, мёртвый (падает/лежит), ремонт, перезапуск --- */
+.skull.sk-dead .jet{opacity:0;transition:opacity .12s}
+.skull.sk-dead .bloom{opacity:0;animation:none}
+.skull.sk-dead .ring{animation:none;opacity:0}
+.skull.sk-dead .spk{animation:none}
+.skull.sk-sputter .jet{animation:jetFlick var(--jp,.2s) linear infinite alternate,sputter .62s steps(1,end) infinite}
+@keyframes sputter{0%,100%{opacity:1}12%{opacity:.08}26%{opacity:.9}40%{opacity:0}56%{opacity:.7}72%{opacity:.04}86%{opacity:.55}}
+.skull.sk-dmg .sm.dk{animation:smRise 1.9s ease-out infinite}
+.skull.sk-dmg .sm.dk.d2{animation-delay:-.95s}.skull.sk-dmg .sm.dk.d3{animation-delay:-.4s}.skull.sk-dmg .sm.dk.d4{animation-delay:-1.3s}
+.skull.sk-dmg .sm.s1,.skull.sk-dmg .sm.s2,.skull.sk-dmg .sm.s3,.skull.sk-dmg .sm.s4{animation:none;opacity:0}
+.skull.sk-fault .arc{animation:arcFlash .62s steps(1,end) infinite}
+@keyframes arcFlash{0%{opacity:1}12%{opacity:0}28%{opacity:.9}40%{opacity:0}70%{opacity:0}78%{opacity:1}90%{opacity:0}}
+.skull.sk-glitch .sk-body{animation:skJit .15s steps(1,end) infinite}
+@keyframes skJit{0%{transform:translate(0,0);opacity:1}20%{transform:translate(-2.4%,.6%) skewX(-4deg);opacity:.85}40%{transform:translate(1.8%,-.8%);opacity:.5}60%{transform:translate(-.8%,.5%) skewX(3deg);opacity:1}80%{transform:translate(2.2%,0);opacity:.6}}
+.skull.sk-glitch .sk-eye{animation:skEyeGlitch .33s steps(1,end) infinite}
+@keyframes skEyeGlitch{0%{opacity:1}22%{opacity:.05}44%{opacity:.85}66%{opacity:0}82%{opacity:.7}}
+.skull.sk-dead .sk-eye{animation:none;opacity:.1}
+.skull.sk-dead .sk-lo{animation-play-state:paused}
+.skull.sk-boot .sk-eye{animation:skBoot .9s ease-out 1}
+@keyframes skBoot{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}25%{opacity:1;transform:translate(-50%,-50%) scale(2)}100%{opacity:.7;transform:translate(-50%,-50%) scale(1)}}
+
+/* --- техножрецы (слои из присланных картинок, см. 03c-priests.js) --- */
+.priest{position:absolute;left:0;top:0;pointer-events:none;will-change:transform;contain:layout style}
+.priest .pr-sh{position:absolute;left:50%;bottom:-3%;width:70%;height:8%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.66) 0,rgba(0,0,0,.32) 45%,rgba(0,0,0,0) 72%)}
+.priest.big .pr-sh{bottom:-5%;width:88%;height:10%;opacity:.8}
+.priest .pr-glow{position:absolute;left:50%;bottom:-2%;width:80%;height:15%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,150,70,.6) 0,rgba(255,110,40,.24) 45%,rgba(255,90,30,0) 72%);animation:prGlow 1.3s ease-in-out infinite alternate}
+@keyframes prGlow{from{opacity:.5}to{opacity:1}}
+.priest .pr-3d,.priest .pr-bob,.priest .pr-body{position:absolute;left:0;top:0;width:100%;height:100%}
+.priest .pr-3d{transform-origin:50% 62%}
+.priest .pr-bob{will-change:transform}
+.priest .pr-img{position:absolute;left:0;top:0;width:100%;height:100%;display:block;background-size:100% 100%;background-repeat:no-repeat}
+.priest .pr-part{position:absolute}
+.priest .pr-tip{position:absolute;width:1px;height:1px}
+.priest .pr-holo{opacity:0;animation:prHolo 1.7s steps(1,end) infinite}
+@keyframes prHolo{0%{opacity:0}8%{opacity:.8}14%{opacity:.25}30%{opacity:.7}44%{opacity:.1}58%{opacity:.85}72%{opacity:.35}86%{opacity:.75}}
+.priest.work .pr-holo{animation-duration:.9s}
+.priest .pr-lo{animation:prHem var(--hp,1.5s) ease-in-out infinite alternate}
+.priest.walk{--hp:.62s;--ha:2.1deg}
+.priest.idle,.priest.work{--hp:2.2s;--ha:.9deg}
+@keyframes prHem{from{transform:rotate(calc(var(--ha,1deg) * -1)) skewX(calc(var(--ha,1deg) * .7))}to{transform:rotate(var(--ha,1deg)) skewX(calc(var(--ha,1deg) * -.7))}}
+/* кабели-механодендриты от манипуляторов к черепу */
+.pr-cables{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.pr-cables .co{fill:none;stroke:#17120f;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.pr-cables .ci{fill:none;stroke:#b8925a;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1.6 2.6}
+/* свет сварки на черепе во время ремонта */
+.weld{position:absolute;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.95) 0,rgba(150,215,255,.55) 30%,rgba(90,170,255,0) 70%);animation:weldGlow .14s steps(1,end) infinite}
+@keyframes weldGlow{0%{opacity:1;transform:scale(1)}30%{opacity:.35;transform:scale(.7)}60%{opacity:.9;transform:scale(1.15)}}
+
+/* облегчённый режим и «уменьшение движения»: двигатели рисуются, но не анимируются; сценок нет */
+body.fx-lite .skull .jet,body.fx-lite .skull .jet .fc,body.fx-lite .skull .jet .dia,body.fx-lite .skull .bloom,body.fx-lite .skull .sk-lo{animation:none}
+body.fx-lite .skull .ring,body.fx-lite .skull .spk,body.fx-lite .skull .sm{animation:none;opacity:0}
+body.fx-lite .skull .jet{scale:calc(.5 + var(--thr,.6) * .7) 1;transition:none}
+@media (prefers-reduced-motion:reduce){
+  .skull .jet,.skull .jet .fc,.skull .jet .dia,.skull .bloom,.skull .sk-lo{animation:none!important}
+  .skull .ring,.skull .spk,.skull .sm{animation:none!important;opacity:0}
+}
